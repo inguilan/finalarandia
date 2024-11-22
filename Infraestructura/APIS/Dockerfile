@@ -1,37 +1,33 @@
+# Usa una imagen oficial de Node.js
 FROM node:20
 
+# Usa el usuario root
 USER root
 
+# Instala herramientas necesarias para PostgreSQL y otros utilitarios
 RUN apt-get update && apt-get install -y wget nano postgresql postgresql-contrib && rm -rf /var/lib/apt/lists/*
 
+# Crea directorios necesarios para PostgreSQL logs
 RUN mkdir -p /var/log/postgresql && \
     chown -R postgres:postgres /var/log/postgresql
 
-RUN npm cache clean --force
-
-RUN npm install -g npm@8.12.1
-
-RUN npm install prisma -g \
-    && npm install cors -g \
-    && npm install pg -g \
-    && npm install dotenv -g \
-    && npm install express -g \
-    && npm install jsonwebtoken -g \
-    && npm install nodemon -g \
-    && npm install @prisma/client -g
-    
-RUN mkdir -p /usr/userAPI
-
+# Establece el directorio de trabajo dentro del contenedor
 WORKDIR /usr/userAPI
 
-COPY usuarios/package*.json /usr/userAPI
+# Copia los archivos de dependencias
+COPY usuarios/package*.json ./
 
+# Instala las dependencias locales
 RUN npm install
 
-RUN npm install dotenv --save-dev
+# Copia el resto del código de la aplicación
+COPY usuarios ./
 
-COPY usuarios /usr/userAPI
+# Genera los archivos cliente de Prisma
+RUN npx prisma generate
 
-RUN prisma generate
+# Expone el puerto de la aplicación
+EXPOSE 3000
 
-CMD ["node", "app.js"]
+# Comando para iniciar la aplicación
+CMD ["npm", "start"]

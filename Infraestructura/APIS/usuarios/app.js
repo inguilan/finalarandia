@@ -1,26 +1,30 @@
+require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
+const path = require('path');
+
+// Importar rutas
+const productRoutes = require('./routes/productRoutes');
+const userRoutes = require('./routes/userRoutes');
+const recipeRoutes = require('./routes/recipeRoutes');
+const reviewRoutes = require('./routes/reviewRoutes');
+const orderRoutes = require('./routes/orderRoutes');
+
 const app = express();
 
 // Middleware
 app.use(express.json());
-app.use(cors({
-  origin: 'http://127.0.0.1:5500', // Dirección del frontend
-  methods: ['GET', 'POST', 'PUT', 'DELETE'],
-  allowedHeaders: ['Content-Type'],
-}));
+app.use(cors());
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
-// Importar las rutas
-const productRoutes = require('./routes/productRoutes');
-
-// Definir las rutas
 app.use('/products', productRoutes);
-
-// Ruta para la raíz
+app.use('/users', userRoutes);
+app.use('/recipe', recipeRoutes);
+app.use('/reviews', reviewRoutes);
+app.use('/orders', orderRoutes);
 app.get('/', (req, res) => {
   res.send('Bienvenido a la API de Cafe Arandia 2.0');
 });
 
-// Iniciar el servidor
 const PORT = process.env.PORT || 8000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));

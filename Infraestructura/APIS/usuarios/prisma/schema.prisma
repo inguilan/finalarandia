@@ -1,72 +1,71 @@
+generator client {
+  provider      = "prisma-client-js"
+  binaryTargets = ["native", "debian-openssl-3.0.x"]
+}
+
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 
-
-generator client {
-  provider = "prisma-client-js"
-  binaryTargets = ["native", "debian-openssl-3.0.x"]
-}
-
-
 model User {
-  id         Int      @id @default(autoincrement())
-  nombre     String
-  email      String   @unique
-  password   String
-  orders     Order[]
-  reviews    Review[]
-  recipes    Recipe[]
+  id       Int       @id @default(autoincrement())
+  nombre   String
+  email    String    @unique
+  password String
+  orders   Order[]
+  products Product[] // Relación con Product
+  recipes  Recipe[]
+  reviews  Review[]
 }
-
-
-model Product {
-  id          Int      @id @default(autoincrement())
-  nombre      String
-  precio      Float
-  descripcion String
-  orderItems  OrderItem[]
-}
-
 
 model Order {
-  id      Int       @id @default(autoincrement())
-  fecha   DateTime  @default(now())
-  estado  String
-  total   Float
-  user    User      @relation(fields: [userId], references: [id])
-  userId  Int
-  items   OrderItem[]
+  id     Int         @id @default(autoincrement())
+  fecha  DateTime    @default(now())
+  estado String      @default("PENDIENTE")
+  total  Float       @default(0.0)
+  userId Int
+  user   User        @relation(fields: [userId], references: [id])
+  items  OrderItem[]
 }
-
 
 model OrderItem {
-  id        Int      @id @default(autoincrement())
+  id        Int     @id @default(autoincrement())
   quantity  Int
-  product   Product  @relation(fields: [productId], references: [id])
   productId Int
-  order     Order    @relation(fields: [orderId], references: [id])
-  orderId   Int
+  orderId   Int?
+  order     Order?  @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  product   Product @relation(fields: [productId], references: [id], onDelete: Cascade)
 }
 
-
-model Review {
-  id          Int      @id @default(autoincrement())
-  calificacion Int
-  comentario  String
-  fecha       DateTime @default(now())
-  user        User     @relation(fields: [userId], references: [id])
+model Product {
+  id          Int         @id @default(autoincrement())
+  nombre      String
+  precio      Float
+  descripcion String?
+  imagen      String?
   userId      Int
+  user        User        @relation(fields: [userId], references: [id]) // Relación inversa con User
+  orderItems  OrderItem[]
+  reviews     Review[] // Relación inversa con Review
 }
-
 
 model Recipe {
-  id           Int      @id @default(autoincrement())
-  titulo       String
+  id            Int     @id @default(autoincrement())
+  titulo        String
   instrucciones String
-  fecha        DateTime @default(now())
-  user         User     @relation(fields: [userId], references: [id])
-  userId       Int
+  imagen        String?
+  userId        Int
+  user          User    @relation(fields: [userId], references: [id])
 }
 
+model Review {
+  id           Int     @id @default(autoincrement())
+  calificacion Int
+  comentario   String
+  imagen       String?
+  userId       Int
+  productId    Int
+  product      Product @relation(fields: [productId], references: [id]) // Relación inversa con Product
+  user         User    @relation(fields: [userId], references: [id])
+}

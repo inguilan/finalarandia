@@ -1,18 +1,122 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="style.css">
-  <title>Carrito de Compras - Cafe Arandia</title>
+  <title>Carrito de Compras</title>
 </head>
+
 <body>
-  <div class="container">
-    <h1>Carrito de Compras</h1>
-    <ul id="cart-items"></ul>
-    <p>Total: $<span id="cart-total">0.00</span></p>
-    <button id="checkout-button">Finalizar Compra</button>
-  </div>
-  <script src="cart.js"></script>
+  <header class="main-header">
+    <div class="logo">
+      <h1>Café Arandia</h1>
+    </div>
+    <ul class="nav-links">
+      <li><a href="#products">Productos</a></li>
+      <li><a href="#recipes">Recetas</a></li>
+      <li><a href="#reviews">Reseñas</a></li>
+      <li><a href="#cart">Carrito</a></li>
+    </ul>
+  </header>
+
+  <main class="container">
+    <section class="cart-section">
+      <h1>Carrito de Compras</h1>
+      <div class="cart-actions">
+        <label for="product-select">Seleccionar Producto:</label>
+        <select id="product-select"></select>
+        <input type="number" id="product-quantity" min="1" value="1">
+        <button id="add-to-cart-button" class="cta-button">Añadir al Carrito</button>
+      </div>
+
+      <h2>Resumen del Carrito</h2>
+      <div class="cart-container">
+        <ul id="cart-items" class="cart-items"></ul>
+        <div class="cart-summary">
+          <p><strong>Total: $</strong><span id="cart-total">0.00</span></p>
+          <button id="checkout-button" class="cta-button">Pagar</button>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="main-footer">
+    <p>&copy; 2024 Café Arandia. Todos los derechos reservados.</p>
+  </footer>
+
+  <script>
+    const user = { id: 1 };
+    let cart = [];
+
+    async function loadProducts() {
+      try {
+        const response = await fetch('http://localhost:8000/products');
+        const products = await response.json();
+
+        const select = document.getElementById('product-select');
+        select.innerHTML = products.map(product =>
+          `<option value="${product.id}" data-price="${product.precio}">${product.nombre} - $${product.precio.toFixed(2)}</option>`
+        ).join('');
+      } catch (error) {
+        console.error('Error al cargar productos:', error);
+      }
+    }
+
+    function addToCart() {
+      const select = document.getElementById('product-select');
+      const productId = select.value;
+      const productName = select.options[select.selectedIndex].text.split(' - ')[0];
+      const productPrice = parseFloat(select.options[select.selectedIndex].dataset.price);
+      const quantity = parseInt(document.getElementById('product-quantity').value);
+
+      const existingItem = cart.find(item => item.productId === productId);
+      if (existingItem) {
+        existingItem.quantity += quantity;
+      } else {
+        cart.push({ productId, productName, productPrice, quantity });
+      }
+
+      updateCart();
+    }
+
+    function updateCart() {
+      const cartItems = document.getElementById('cart-items');
+      const cartTotal = document.getElementById('cart-total');
+
+      cartItems.innerHTML = cart.map(item => `
+        <li class="cart-item">
+          <div class="item-details">
+            <h3>${item.productName}</h3>
+            <p>${item.quantity} x $${item.productPrice.toFixed(2)}</p>
+          </div>
+          <div class="item-total">
+            <p>$${(item.quantity * item.productPrice).toFixed(2)}</p>
+          </div>
+        </li>
+      `).join('');
+
+      const total = cart.reduce((sum, item) => sum + item.quantity * item.productPrice, 0);
+      cartTotal.textContent = total.toFixed(2);
+    }
+
+    function checkout() {
+      if (cart.length === 0) {
+        alert('El carrito está vacío.');
+        return;
+      }
+
+      alert('Gracias por tu compra.');
+      cart = [];
+      updateCart();
+    }
+
+    document.getElementById('add-to-cart-button').addEventListener('click', addToCart);
+    document.getElementById('checkout-button').addEventListener('click', checkout);
+
+    loadProducts();
+  </script>
 </body>
+
 </html>

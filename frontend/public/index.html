@@ -4,17 +4,113 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="style.css">
-  <title>Cafe Arandia - Inicio</title>
+  <title>Palmicafe Arandia - Inicio</title>
+  <style>
+    /* Hero Section con fondo difuminado */
+    .hero {
+      position: relative;
+      background: url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRXkK46hkL606KQIiTD6VP9YIZc1Z_w0jZiRg&s') no-repeat center center/cover;
+      color: white;
+      text-align: center;
+      padding: 80px 20px;
+      height: 100vh;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.4); /* Superposición negra semitransparente */
+      backdrop-filter: blur(10px); /* Efecto de difuminado */
+      z-index: 1; /* Asegura que el contenido quede sobre esta capa */
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 2; /* Coloca el contenido por encima del difuminado */
+    }
+
+    .hero h2 {
+      font-size: 3rem;
+      margin-bottom: 20px;
+    }
+
+    .hero p {
+      font-size: 1.5rem;
+      margin-bottom: 30px;
+    }
+
+    .cta-button {
+      background-color: #7b3f00;
+      color: white;
+      padding: 10px 20px;
+      border-radius: 5px;
+      font-size: 1.2rem;
+      text-transform: uppercase;
+      transition: background-color 0.3s ease;
+    }
+
+    .cta-button:hover {
+      background-color: #5c4033;
+    }
+
+    /* Features Section */
+    .features {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 20px;
+      padding: 50px 20px;
+      text-align: center;
+      background-color: #f8f3e7;
+    }
+
+    .feature-item {
+      background: white;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .feature-item img {
+      width: 100%;
+      height: auto;
+      border-radius: 10px;
+      margin-bottom: 15px;
+    }
+
+    .feature-item h3 {
+      font-size: 1.5rem;
+      color: #7b3f00;
+      margin-bottom: 10px;
+    }
+
+    .feature-item p {
+      font-size: 1rem;
+      color: #555;
+    }
+
+    /* Footer */
+    footer {
+      background-color: #7b3f00;
+      color: white;
+      text-align: center;
+      padding: 15px;
+      margin-top: 50px;
+    }
+  </style>
 </head>
 <body>
   <header class="main-header">
     <div class="logo">
-      <h1>Cafe Arandia</h1>
+      <h1><a href="index.html" style="color: white; text-decoration: none;">Palmicafe Arandia</a></h1>
     </div>
     <nav>
-      <ul class="nav-links">
-        <li><a href="login.html">Iniciar Sesión</a></li>
-        <li><a href="register.html">Registrarse</a></li>
+      <ul class="nav-links" id="nav-links">
+        <li id="login-link"><a href="login.html">Iniciar Sesión</a></li>
+        <li id="register-link"><a href="register.html">Registrarse</a></li>
         <li><a href="products.html">Productos</a></li>
         <li><a href="recipes.html">Recetas</a></li>
         <li><a href="reviews.html">Reseñas</a></li>
@@ -23,31 +119,70 @@
     </nav>
   </header>
 
-  <main class="home-content">
+  <main>
+    <!-- Hero Section -->
     <section class="hero">
-      <h2>Bienvenidos a Cafe Arandia</h2>
-      <p>Descubre la experiencia de disfrutar el mejor café y productos exclusivos.</p>
-      <a href="products.html" class="cta-button">Explorar Productos</a>
+      <div class="hero-content">
+        <h2>Bienvenidos a Palmicafe Arandia</h2>
+        <p>Disfruta del mejor café con un toque artesanal y recetas exclusivas.</p>
+        <a href="products.html" class="cta-button">Explorar Productos</a>
+      </div>
     </section>
 
+    <!-- Features Section -->
     <section class="features">
       <div class="feature-item">
-        <h3>Productos de Calidad</h3>
-        <p>Explora nuestra selección de café y artículos diseñados para los amantes del buen café.</p>
+        <img src="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/..." alt="Beneficios de tomar café">
+        <h3>Beneficios del Café</h3>
+        <p>Descubre los múltiples beneficios de consumir café diariamente.</p>
       </div>
       <div class="feature-item">
-        <h3>Recetas Exclusivas</h3>
-        <p>Inspírate con nuestras recetas únicas y crea momentos inolvidables.</p>
+        <img src="https://backend.shaio.org/sites/default/files/blog/blog-shaio-beneficios-tomar-caf%C3%A9_1.jpg" alt="Calidad garantizada">
+        <h3>Calidad Garantizada</h3>
+        <p>Seleccionamos los mejores granos de café para garantizar su calidad.</p>
       </div>
       <div class="feature-item">
-        <h3>Opiniones Reales</h3>
-        <p>Lee las opiniones de otros clientes sobre nuestros productos.</p>
+        <img src="https://www.20minutos.es/salud/nutricion/cafe-especias-neurologo-memoria-estres-cerebro-recomendaciones-5637817/" alt="Recetas únicas">
+        <h3>Recetas Únicas</h3>
+        <p>Prueba recetas exclusivas que resaltan el sabor del café.</p>
       </div>
     </section>
   </main>
 
-  <footer class="main-footer">
-    <p>&copy; 2024 Cafe Arandia. Todos los derechos reservados.</p>
+  <footer>
+    <p>&copy; 2024 Palmicafe Arandia. Todos los derechos reservados.</p>
+    <p class="owners">Creado por: Ing. Christian Santacruz e Ing. David Inguilan</p>
   </footer>
+
+  <script>
+    // Cargar usuario desde el almacenamiento local
+    const user = JSON.parse(localStorage.getItem('user'));
+
+    if (user) {
+      const navLinks = document.getElementById('nav-links');
+
+      // Remover enlaces de inicio de sesión y registro
+      document.getElementById('login-link')?.remove();
+      document.getElementById('register-link')?.remove();
+
+      // Agregar nombre del usuario
+      const userElement = document.createElement('li');
+      userElement.textContent = `Bienvenido, ${user.nombre}`;
+      navLinks.appendChild(userElement);
+
+      // Agregar botón de cerrar sesión
+      const logoutElement = document.createElement('li');
+      const logoutButton = document.createElement('a');
+      logoutButton.textContent = 'Cerrar Sesión';
+      logoutButton.href = "#";
+      logoutButton.addEventListener('click', () => {
+        localStorage.removeItem('user'); // Eliminar usuario del almacenamiento local
+        alert('Has cerrado sesión correctamente.');
+        location.reload(); // Recargar la página
+      });
+      logoutElement.appendChild(logoutButton);
+      navLinks.appendChild(logoutElement);
+    }
+  </script>
 </body>
 </html>
