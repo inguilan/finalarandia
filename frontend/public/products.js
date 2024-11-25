@@ -1,7 +1,6 @@
 const productForm = document.getElementById('product-form');
 const productList = document.getElementById('product-list');
 
-// Crear un nuevo producto
 productForm.addEventListener('submit', async (e) => {
   e.preventDefault();
   const name = document.getElementById('product-name').value;

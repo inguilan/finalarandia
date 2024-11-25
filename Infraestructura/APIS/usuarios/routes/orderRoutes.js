@@ -1,8 +1,10 @@
 const express = require('express');
 const { addToOrder, checkoutOrder } = require('../controllers/orderController');
+
 const router = express.Router();
 
-router.post('/add', addToOrder); // Ruta para añadir productos
-router.post('/checkout', checkoutOrder); // Ruta para finalizar compra
+// Rutas para gestionar pedidos
+router.post('/add', addToOrder); // Sin middleware de autenticación
+router.post('/checkout', checkoutOrder);
 
 module.exports = router;

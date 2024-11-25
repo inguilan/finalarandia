@@ -1,7 +1,6 @@
 const recipeForm = document.getElementById('recipe-form');
 const recipeList = document.getElementById('recipe-list');
 
-// Crear una nueva receta
 recipeForm.addEventListener('submit', async (e) => {
   e.preventDefault();
   const title = document.getElementById('recipe-title').value;
@@ -10,7 +9,7 @@ recipeForm.addEventListener('submit', async (e) => {
   const response = await fetch('/recipes/create', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ titulo: title, instrucciones: instructions, userId: 1 }), // Reemplaza userId con el ID del usuario logueado
+    body: JSON.stringify({ titulo: title, instrucciones: instructions, userId: 1 }),
   });
 
   const result = await response.json();

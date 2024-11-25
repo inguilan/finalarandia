@@ -5,6 +5,7 @@ const { addProduct, getProducts } = require('../controllers/productController');
 const router = express.Router();
 const upload = multer({ dest: 'uploads/' });
 
+// Rutas para productos
 router.post('/add', upload.single('imagen'), addProduct);
 router.get('/', getProducts);
 

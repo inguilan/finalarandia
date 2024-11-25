@@ -1,13 +1,21 @@
-exports.getProducts = async (req, res) => {
-  try {
-    const products = await prisma.product.findMany({
-      include: { user: true },
-    });
+const prisma = require('../prismaClient');
 
-    console.log('Productos encontrados:', products); // Depuración
-    res.status(200).json(products);
+// Controlador para añadir productos al pedido
+exports.addToOrder = async (req, res) => {
+  try {
+    res.status(200).json({ message: 'Producto añadido al pedido' });
   } catch (error) {
-    console.error('Error al obtener productos:', error);
-    res.status(500).json({ error: 'Error al obtener productos', details: error.message });
+    console.error('Error en addToOrder:', error);
+    res.status(500).json({ error: 'No se pudo añadir al pedido' });
+  }
+};
+
+// Controlador para finalizar el pedido
+exports.checkoutOrder = async (req, res) => {
+  try {
+    res.status(200).json({ message: 'Pedido finalizado con éxito' });
+  } catch (error) {
+    console.error('Error en checkoutOrder:', error);
+    res.status(500).json({ error: 'No se pudo finalizar el pedido' });
   }
 };

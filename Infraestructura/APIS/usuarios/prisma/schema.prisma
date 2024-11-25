@@ -14,7 +14,7 @@ model User {
   email    String    @unique
   password String
   orders   Order[]
-  products Product[] // Relación con Product
+  products Product[]
   recipes  Recipe[]
   reviews  Review[]
 }
@@ -44,10 +44,10 @@ model Product {
   precio      Float
   descripcion String?
   imagen      String?
-  userId      Int
-  user        User        @relation(fields: [userId], references: [id]) // Relación inversa con User
+  userId      Int?
+  user        User?       @relation(fields: [userId], references: [id])
   orderItems  OrderItem[]
-  reviews     Review[] // Relación inversa con Review
+  reviews     Review[]
 }
 
 model Recipe {
@@ -66,6 +66,6 @@ model Review {
   imagen       String?
   userId       Int
   productId    Int
-  product      Product @relation(fields: [productId], references: [id]) // Relación inversa con Product
+  product      Product @relation(fields: [productId], references: [id])
   user         User    @relation(fields: [userId], references: [id])
 }

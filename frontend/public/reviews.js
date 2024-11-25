@@ -1,7 +1,6 @@
 const reviewForm = document.getElementById('review-form');
 const reviewList = document.getElementById('review-list');
 
-// Crear una nueva reseña
 reviewForm.addEventListener('submit', async (e) => {
   e.preventDefault();
   const rating = document.getElementById('review-rating').value;
@@ -10,7 +9,7 @@ reviewForm.addEventListener('submit', async (e) => {
   const response = await fetch('/reviews/create', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ calificacion: parseInt(rating), comentario: comment, userId: 1 }), // Reemplaza userId con el ID del usuario logueado
+    body: JSON.stringify({ calificacion: parseInt(rating), comentario: comment, userId: 1 }), 
   });
 
   const result = await response.json();
